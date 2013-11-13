@@ -27,6 +27,7 @@ public:
     void SetHead(Node *aHead) { head = aHead; };
     void Init(int size, int range);
     void Append(int d);
+    void AppendHead(int d);
     void Delete(int d);
     void toString();
 };
@@ -61,6 +62,14 @@ void List::Append(int d)
     	while (tmp->Next() != NULL) { tmp = tmp->Next(); }
         tmp->SetNext(newNode);
     }
+}
+
+void List::AppendHead(int d)
+{
+    Node *newNode = new Node(d);
+
+    newNode->SetNext(head);
+    head = newNode;
 }
 
 void List::Delete(int d)
