@@ -1,5 +1,6 @@
 #include <iostream>
 #include <queue>
+#include <stack>
 #include <vector>
 using namespace std;
 
@@ -38,6 +39,7 @@ TreeNode * generate(vector<int> data) {
     return root;
 }
 
+// toString by bfs
 void toString(TreeNode *root) {
     if (root == NULL) {
         cout << "empty" << endl;
@@ -68,5 +70,95 @@ void toString(TreeNode *root) {
     }
 
     cout << endl;
+}
+
+void preOrder(TreeNode *root) {
+    if (!root) { return; }  
+    stack<TreeNode *> s;
+    TreeNode *cur = root;
+
+    cout << "pre Order: ";
+    while (cur || !s.empty()) {
+        if (cur) {
+            cout << cur->val << " ";
+            if (cur->right) { s.push(cur->right); }
+            cur = cur->left;
+        } else {
+            cur = s.top();
+            s.pop();
+        }
+    }
+    cout << endl;
+}
+
+void postOrder(TreeNode *root) {
+    if (!root) { return; }
+    stack<TreeNode *> s;
+    TreeNode * pre = NULL;
+    s.push(root);
+
+    cout << "post Order: ";
+
+    while (!s.empty()) {
+        TreeNode *cur = s.top();
+        if (!pre || pre->left == cur || pre->right == cur) {
+            if (cur->left) { s.push(cur->left); }
+            else if (cur->right) { s.push(cur->right); }
+        } else if (cur->left == pre) {
+            if (cur->right) { s.push(cur->right); }
+        } else {
+            cout << cur->val << " ";
+            s.pop();
+        }
+        pre = cur;
+    }
+    cout << endl;
+}
+
+void inOrder(TreeNode *root) {
+    if (!root) { return; }
+    stack<TreeNode *> s;
+    TreeNode *cur = root;
+
+    cout << "in Order: ";
+    while (cur || !s.empty()) {
+        if (cur) {
+            s.push(cur);
+            cur = cur->left;
+        } else {
+            cur = s.top();
+            s.pop();
+            cout << cur->val << " ";
+            cur = cur->right;
+        }
+    }
+    cout << endl;
+}
+
+void bfsOrder(TreeNode *root) {
+    if (!root) { return; }
+    queue<TreeNode *> q;
+    q.push(root);
+    TreeNode *placeHolder = new TreeNode(-1000);
+    q.push(placeHolder);
+
+    cout << "bfs Order: " << endl;
+    while (!q.empty()) {
+        TreeNode *cur = q.front();
+        q.pop();
+
+        if (cur == placeHolder) {
+            cout << endl;
+            if (q.empty()) { 
+                cout << endl;
+                return; 
+            }
+            q.push(placeHolder);
+        } else {
+            cout << cur->val << " ";
+            if (cur->left) { q.push(cur->left); }
+            if (cur->right) { q.push(cur->right); }
+        }
+    }
 }
 

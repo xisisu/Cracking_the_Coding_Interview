@@ -68,7 +68,7 @@ int main()
 	Solution res;
 	vector<int> data;
 
-	for (int i = 0; i < 32; i++) {
+	for (int i = 0; i < 16; i++) {
 		data.push_back(i+1);
 		// data.push_back((rand()%100)+1);
 	}
@@ -76,6 +76,10 @@ int main()
 	TreeNode *root = generate(data);
 	cout << "before: ";
 	toString(root);
+	preOrder(root);
+	inOrder(root);
+	postOrder(root);
+	bfsOrder(root);
 
 	vector<vector<TreeNode *> > list = res.linked_list_from_tree(root);
 
