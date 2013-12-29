@@ -1,0 +1,390 @@
+It’s about how optimal your final solution was, how long it took you to get there, and how clean your code was.
+
+Dress
+Tech companies: Khakis, slacks, or nice jeans. Polo shirt or dress shirt
+Non-Tech companies: Suit, no tie
+
+Top 10 mistakes
+Practicing on a computer
+Not rehearsing behavioral questions
+Not doing a mock interview
+Trying to memorize solutions
+Not solving problems out loud
+Rushing
+Sloppy coding
+Not testing
+Fixing mistakes carelessly
+Giving up
+
+Interview Companies
+MS: only talks to hiring manager when you do well
+Amazon: scalability questions, object-oriented design, bar raiser interview
+Google: scalability and memory limits, bit manipulation, analytical ability, coding, experience, and communication
+Apple: read team info first, maybe 2-on-1 interview
+Facebook: love to build things fast, algorithm / coding skills, architecture / design skills
+Yahoo: system design, same day decision
+
+Behavioral Questions
+Most Challenging
+What you learned
+Most interesting
+Hardest bug
+Enjoyed most
+Conflicts with teammates
+
+Must Know
+Data structures: linked lists, binary trees, tries, stacks, queues, vectors / arraylists, hash tables
+Algorithms: breadth first search, depth first search, binary search, merge sort, quick sort, tree insert / find / etc
+Concepts: bit manipulation, singleton design pattern, factory design pattern, memory (stack vs. heap), recursion, big-O time
+
+Five Steps to a Technical Question
+Ask interviewer questions to resolve ambiguity
+what are data types? how much data is there? what assumptions? who is the user?
+e.g., sort a list (what? array. what? number. integer? yes. what? ages. scale? million). just use 0-130 array
+Design an algorithm
+space / time complexity? scalability? other compatibility issues with standard data structure (e.g., tree)? limitations and trade offs? data range? (e.g., age)
+Write pseudocode first, but make sure to tell your interviewer that you’ll write real code
+Write your code at a moderate pace
+use data structure generously
+don’t crowd your coding, start from top-left corner
+Test your code and carefully fix any mistakes
+extreme cases: 0, negative, null, maximums, minimums
+user error input
+general cases
+
+Five Algorithm Approaches
+Exemplify. e.g., calculate angle between hour and minute
+Pattern matching. e.g., find min_val in an rotated array
+Simplify and generalize. e.g., find words that can form note (find characters that can ...)
+Base case and build. e.g., print permutation of a string.  usually in dynamic programming
+Data structure brainstorm. e.g., find median in an array. using two heaps
+
+What Good Coding Looks Like
+Correct, efficient, simple, readable, maintainable
+Use data structures generously. e.g., represent Axm+Bxn+...  Define a new class with coefficient and exponent, and pass an array of these new class
+Appropriate code reuse. e.g., compare binary vs. hex
+Modular. e.g., swap min and max values
+Flexible and robust. e.g., tic-tac-toe doesn’t have to be 3*3
+Error checking. e.g., don’t make assumptions about input
+
+Data Structures
+
+Arrays and Strings
+Hash table
+hash function and collisions (linked by list, second-hash, etc)
+hash array: too big! can use linked list O(n), or binary search tree to reduce to O(log n)
+implemented as set or unordered_set in C++
+set: ordered, implemented by trees (red-black tree). better for iteration
+unordered_set: not ordered, faster. but not efficient for range iteration
+multiset/unordered_multiset: allow multiple items
+ArrayList
+dynamically resizing, usually double size when full
+implemented as vector in C++ (not array!)
+StringBuffer
+to avoid string concentration (strings are immutable, so every operation would create new one)
+In C++, string is mutable!!! No such problem. In Python, Java, string is immutable, have this problem, need to use StringBuffer
+Benefit of immutable string
+security, concurrency, keys to the hash, substrings
+thread-safe, compiler optimization, memory-saving optimization, copy is fast, internal state can be safely shared, string to cache its hashcode
+Tricks (8 probs)
+unique characters, input is character set, which is limited to 256
+use bit operation, so only 256/32 = 8 int
+if array is larger than 256, then must duplicate! if less than 2, then must unique!
+ask if we can modify the string or not! can sort the string
+reverse c string, find end first, then back one step
+string permutation, ask cap matters? white space counts?
+replace spaces, remember to add the ‘\0’ to the end of c string (or char array)
+count characters, string can perform +=, mutable in c++. Remember to process last elem!
+rotate image, using first = layer, last=n-1-layer, for (i=first; i<last; i++) { offset = i-first; }
+clear matrix, use internal storage
+rotate string, s3 = s1+s1, then s3.find(s2) to decide string rotation
+
+Linked Lists
+Likely to implement linked list from scratch
+Ask singly linked list or doubly linked list
+Runner technology: usually by using two pointers in a linked list
+Tricks (7 probs)
+remove duplicate: when no extra buffer, consider a list with all same value
+find last kth elem: two runners technology, ask if length is pre-known!
+remove middle node: trick.. just reset the data
+partition list: just create two new lists, note that they can be NULL. pass by address for list
+sum: can use integer to implement the sum operation, or use padded list with 0
+circular list: use fast and slow pointer. Carefully calculate distance
+palindrome: 1) create reverse list and compare; 2) use slow & fast pointer to get end and middle, along with stack; 3) recursive don’t know how
+
+Stack and Queues
+stack: impl as linked list with top, push at head, pop from head
+queue: impl as linked list with first and last, enqueue at last, dequeue from first
+Tricks (7 probs)
+array to 3 stacks: notice in pop, use offset start with -1!
+stack with min: two stacks, note the same value, need to push to min stack multiple times
+set of stacks: discuss the popAt() would create holes in the set of stacks
+hanoi: easy prob, using three vectors
+queue using stacks: easy prob, special process for dequeue
+sort stack: tricky! assume one is sorted and process
+animal: object-oriented programming. isOlderThan(), timeStamp()
+
+Trees and Graphs
+In order:
+stack<TreeNode *> s;
+TreeNode *cur = root;
+while (cur || !s.empty()) {
+  if (cur) { 
+     s.push(cur); cur = cur->left; }
+  else {
+    cur = s.top(); s.pop();
+    visit(cur); cur = cur->right;
+  }
+}
+Pre order:
+stack<TreeNode *> s;
+TreeNode *cur = root;
+while (cur || !s.empty()) {
+  if (cur) {
+    visit(cur); 
+    if (cur->right) s.push(cur->right); 
+    cur = cur->left;
+  } else {
+    cur = s.top(); s.pop();
+  }
+}
+Post order:
+stack<TreeNode *> s;
+TreeNode *pre = NULL;
+s.push(root);
+while (!s.empty()) {
+  TreeNode *cur = s.top();
+  if (!pre || pre->left == cur || pre->right == cur) {
+    if (cur->left) s.push(cur->left);
+    if (cur->right) s.push(cur->right);
+  } else if (cur->left == pre) {
+    if (cur->right) s.push(cur->right);
+  } else {
+    visit(cur); s.pop(); } } 
+binary tree vs. binary search tree
+balanced vs. unbalanced: decides algorithm’s avg and worst case time
+full and complete: all leaves are at bottom
+binary tree traversal: in-order, post-order, and pre-order
+tree balancing: red-black and avl trees: too complicated
+tries: a variant of an n-ary tree, each path down the tree represent a word
+graph traversal: breadth first search (use queue), depth first search (use recursive)
+key difference between dfs and tree traverse: must record visited in graph
+Tricks (9 probs)
+check balanced: within height, check the tree balanced or not. or use bfs
+route between nodes:
+create binary search tree: use mid = (start+end)/2, set end=data.size()-1
+linked list from tree: easy prob, bfs. Note: original prob as a list of TreeNodes, not val
+check binary search tree: in-order traversal. Notice iterative approach!
+find next node: consider all cases!
+first common ancestor: discuss with link to parents; use covers (recursive); use dfs(post-order, iterative) with set 
+decide subtree: 1) change to post-order with NULL (unique for a tree); 2) check by root. discuss scale!
+path sum: 1) recursive (check 断开的 path); 2) iterative with post-order. “check if a path end here with sum of target”
+
+Concepts and Algorithms
+
+Bit Manipulation
+a^(~a) = 1; x & (~0 << n): clears the n rightmost bits of x; 
+getBit(int num, int i) { return ((num & (1 << i)) != 0); }
+setBit(int num, int i) { return num | (1 << i); }
+clearBit(int num, int i) { int mask = ~(1 << i); return num & mask; } 
+clearBitsFromSignificant(int num, int i) { int mask = (1 << i)-1; return num & mask; }     [i, highest]
+clearBitsFromLow(int num, int i) { int mask = ~((1 << (i+1))-1); return num & mask; }   [0, i];
+Tricks (8 probs)
+m to n: generate mask, can use (1<<i)-1 for mask like (0000011111), remember to ‘0’+..
+double to binary: discuss StringBuilder vs. String, C++ use mutable String
+next number: too many cases to consider, use brute force. ask can change # of bits?
+check power to two: ((n & (n-1)) == 0)
+count convert: count 1s in m^n.  Note: c &= (c-1) flip the least significant 1 bit
+swap odd and even: return ( ((num & 0x55555555) >> 1) | ((num & 0xaaaaaaaa) << 1) )
+find missing: use recursive. Hard prob! check solution!
+draw line: hard prob as well. Notice the pixel representation!
+
+Brain Teasers
+Tricks (6 probs)
+
+Mathematics and Probability
+Tricks (7 probs)
+math ops using add: use neg function
+kth number with 357: three queues, good prob!
+
+Object-Oriented Design
+OO Design
+Handle ambiguity: who, what, where, when, how, why
+Define the core objects: 
+Analyze relationships: inheritance? one-to-one or one-to-many?
+Investigate actions: which key actions?
+Design Patterns:
+Singleton
+Factory
+Tricks (10 probs)
+hash table: if linked lists for collisions, should store key value as well.
+
+Recursion and Dynamic Programming
+Recursion: Bottom-UP and Top-Down
+use O(n) recursive calls, then it uses O(n) memory
+Dynamic Programming: just cache middle results
+Tricks (11 probs)
+climbing stairs: use map<int, int> instead of vector!  use the find function 
+robot moving: use set to represent bad points 
+magic index: if allow repeat number, should use min, max, see code 
+all subsets: in recursive solution, pay attention to the empty data set
+all permutations: n! results, notice the use of string.substr(start, length), and string.insert(pos, 1, char)
+valid parentheses: helper(n, left, right, str); { helper(n, left+1, right, str+”(”); helper(n, left, right+1, str+”)”); }
+paint fill: recursive solution
+represent n cents: pass current denom to avoid repeated element
+eight queens: use leetcode solution, void eight_queues(int cur, int n, vector<vector<string> > &res, int position[]);
+max stack height: use dynamic programming
+boolean expression: use two tables, T_val & F_val, dynamic programming
+http://people.csail.mit.edu/bdean/6.046/dp/
+
+Scalability and Memory Limits
+Assume it can fit one machine, then scale it to multiple machines, then solve the problems
+Dividing up data: by order of appearance; by hash value; by actual value; and arbitrarily
+Example: find all documents that contain a list of words
+Step 1: build a list of documents for each word, then find the common subset of them
+Step 2: hash table maybe too large to fit on one machine; divide it by: 
+value? 
+each machine has a subset of doc and hold hash table for its own?
+what about adding documents? what’s the cost?
+Step 3: assume each machine contains a range of words. then find and take common subset 
+Tricks (7 probs)
+Distribute stock price info: 
+let clients download all raw data. con: what if data format change?
+SQL database: pro: rollback, easy to maintain; con: inefficient query might break our server, not human readable
+XML: pro: human and machine readable; con: cannot query, requires all docs
+Data structure for large social network:
+find person connection using breadth first search
+replace person list pointers with ID, then store ID-Machine mapping
+optimization: cross machine is costly, smart division of people, batch machine jump query
+Find missing number within four billion non-negative integers
+using 4GB memory, bit mapping
+use 10 MB memory, divided into ranges, do it twice
+Find duplicate number within 32,000, using 4KB memory. Bit operation
+Web crawler design, how to avoid infinite loops?
+occurs when a cycle appears, create hash to detect it
+based on URL, content, similarity
+Duplicate documents among 10 billion URLs. 
+space: 1 URL = 100 char = 100 * 4B, 10 billion = 1 terabyte, cannot fit memory!
+store in disk: split into different files by hash value, then detect duplicate in each file
+store in diff machines: send url to machine X.
+Cache mechanism for search, explain how to update cache
+how to perform expire operation? fixed capacity linked list to update, hash table to look up
+when multiple machines, how to share the cache? 
+each machine has own cache
+each machine has copy of cache
+each machine has a segment of the cache
+how to update cache? periodically update cache
+optimizations: proxy can store cache as well; timeout based on topic/website; 
+
+Sorting and Searching
+bubble_sort, selection_sort, merge_sort, quick_sort
+binary search
+Tricks (8 probs)
+merge two sorted array: start from the end, only need to do left merge for one array
+sort strings by anagram: sort string by letter, then sort array
+binary search in rotated array: recursive, if normal, if not normal, if same!
+binary search with empty strings: easy prob
+binary search in matrix: start from top right corner!
+tallest tower: dynamic programming prob
+stream integers: use tree with extra node for left_number_of_nodes
+
+Testing
+Test a real object, a piece of software, a function, or troubleshoot an existing issue
+Big picture understanding: prioritize test cases 
+Knowing how the pieces fit together: test google doc (how to integrate with Gmail, plug-ins, etc)
+Organize in a structured manner. 
+Practicality reasonable test plans
+Real world obj: who use it? why? user cases? bounds of use? stress/failure conditions? how to perform the testing?
+Software: manual vs. automated testing; black/white box testing; who? why? use cases? bounds? stress/failure cases? test cases and how?
+Function: normal case? extremes? NULLs and illegals? strange inputs? expected outputs? test code?
+Troubleshooting: understand scenario (how long” browser? OS? repeatable?) break down the prob; create test cases
+Tricks (6 probs)
+find error: for (unsigned int i = 10; i >= 0; --i)   unsigned int is always >= 0! will loop forever!
+test crashed app: random variable; uninitialized variable; memory leaks; external dependencies; 
+test chess: canMoveTo(int x, int y)
+neg value for x and y; x larger than width; y larger than height; full/empty board, etc
+general testing
+test webpage: response time, throughput, resource utilization, max load
+
+Knowledge Based
+
+C and C++
+Members are private by default; class Studnet : public Person {};
+Person(int a) : id(a) {}
+Virtual functions allows dynamic binding. Base * p = new Devired(); p->haha();
+Default value starts from right most; int foo(int a, int b = 3) {}
+Pointer is address; reference is another name
+int * p = new int; *p = 7; int *q = p; *q = 8; cout << *p << endl;  // prints 8
+int a = 5; int &b = a; b = 7; cout << a << endl;  // prints 7
+Tricks (10 probs)
+print last k lines: use circular buffers; or queues
+hash function vs. STL map:
+hash: O(1) insert and lookup; chaining to resolve collisions; store key/value pairs
+STL map: store key/value pairs, implemented as red black tree, O(lon N) time
+
+pair<int, int> p1(1, 1); pair<int, int> p2(1, 2); 
+set< pair<int, int> > s; s.insert(p1); s.insert(p2);   cout << s.size(); // prints 2
+map<int, int> m; m.insert(p1); m.insert(p2); cout << m.size(); // prints 1
+virtual function: dynamic binding in C++ is performed through the virtual function
+shallow copy vs. deep copy: must be careful with destruction of objs in shallow copy
+volatile in C: avoid optimization, code can be modified by external programs, will reload from memory every time
+virtual base destructor: want to ensure that destructor for derived class is called
+complete copy: use a map to record what has been copied! don’t assume tree without loop!
+smart pointers: don’t know how to deal with it
+aligned malloc: void * q = (void *) (((size_t)(p) + offset) & ~(alignment-1))
+2D array: use int **
+
+Java
+How: Create an example of the scenario; discuss how other languages would handle it; how you would design this situation
+Final, Finally, Finalize
+Final: variable(cannot be changed); method (cannot be overridden by subclass); class (cannot be subclassed)
+Finally: will be executed after the try/catch blocks, but before returns (even if returns before finally!)
+Finalize: called by garbage collector. Usually override to delete files, clean other stuff
+Overloading vs. Overriding
+Overloading: same name, but different parameters
+Overriding: subclass use different implementation, but same name and parameters
+Tricks (6 probs)
+Templates difference between C++ and JAVA
+C++: similar to macro. if contains static variable, different type would create different variable
+Java: type erasure. if contains static variable, all share one
+Object reflection: don’t know what this is
+Implement CircualrArray: use int head; the iterator need to implement: hasNext(), next(), remove()
+
+Databases
+
+
+Threads and Locks
+Deadlock and solutions 
+mutual exclusion; read-only access
+hold and wait; request all resources at once, or give up resources
+no preemption; preemptive system, OK for resources like memory (page to disk), CPU, I/O 
+circular wait; request resources in order
+Tricks (6 probs)
+ Thread vs. process
+process: instance of a program in execution. independent to each other, execute in separate address space; use inter-process communication to share variables
+thread: exists within a process, shares the process’ resources (including heap). Each thread has its own stack and registers.
+ensure a calling order for three functions
+Foo()       { for(int i = 0; i < 3; ++i) lock[i].lock(); }
+first()       { do_something(); lock[0].unlock(); }
+second() { lock[0].lock(); lock[0].unlock(); do_something();  lock[1].unlock();  }
+third()      { lock[1].lock(); lock[1].unlock(); do_something();  }
+Philosophers dining: prioritize resource to avoid the prob
+
+Additional Review Problems
+
+Moderate (14 probs)
+swap number in place: a = a^b; b = a^b; a = a^b;            or a = a-b; b = a+b; a = b-a
+tic tac toe: use hash table for all solutions, can use 1 int to store all 9 positions
+trailing zeros: if (i % 5 == 0) { int tmp = i; while (tmp % 5 == 0) { ++count; tmp /= 5; } }
+for (int i = 5; n/i > 0; i *= 5)  count += n / i;  
+guess colors: pay attention to count!! use map to do it
+sort array: easy prob, just divided into three parts, require left < min(middle) && right > max(middle)
+print numbers: divided into two funcs, print_number and print_under_100; process from right to left
+max sum: easy prob
+
+
+
+
+Hard
+
+
