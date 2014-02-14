@@ -1,7 +1,8 @@
 #include <iostream>
 #include <map>
 #include <cstdlib>
-
+#include <vector>
+#include <algorithm>
 #include <iomanip>
 using namespace std;
 
@@ -17,9 +18,30 @@ public:
 				--m[want];
 				if (m[want] == 0)
 					m.erase(want);
+			} else {
+				++m[a[i]];
 			}
+		}
 
-			++m[a[i]];
+		return 0;
+	}
+
+	int two_sum_1(int a[], int n, int target) {
+		vector<int> data(a, a+n);
+		sort(data.begin(), data.end());
+		int left = 0, right = data.size()-1;
+
+		while (left < right) {
+			int sum = data[left] + data[right];
+			if (sum == target) {
+				cout << setw(2) << data[left] << " " << setw(2) << data[right] << endl;
+				++left;
+				--right;
+			} else if (sum < target) {
+				++left;
+			} else {
+				--right;
+			}
 		}
 
 		return 0;

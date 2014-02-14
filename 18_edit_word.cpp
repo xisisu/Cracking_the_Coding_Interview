@@ -47,8 +47,8 @@ int main() {
 		string cur = q.front();
 		q.pop();
 
-		if (cur == dst) {
-			while (cur != src) {
+		if (cur.compare(dst) == 0) {
+			while (cur.compare(src) != 0) {
 				cout << cur << " ";
 				cur = trace[cur];
 			}

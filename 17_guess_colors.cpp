@@ -1,7 +1,8 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
-#include <map>;
+#include <map>
+#include <vector>
 using namespace std;
 
 class Solution{
@@ -13,19 +14,23 @@ public:
 		int hit = 0;
 		int fake_hit = 0;
 		map<char, int> m;
+		vector<int> mismatch;
+
 
 		for (int i = 0; i < sol.size(); ++i) {
 			if (sol[i] == guess[i]) 
 				++hit;
-			else 
+			else {
 				++m[sol[i]];
+				mismatch.push_back(i);
+			}
 		}
 
-		for (int i = 0; i < guess.size(); ++i) 
-			if (m.find(guess[i]) != m.end()) {
-				--m[guess[i]];
-				if (m[guess[i]] == 0) {
-					m.erase(guess[i]);
+		for (int i = 0; i < mismatch.size(); ++i) 
+			if (m.find(guess[mismatch[i]]) != m.end()) {
+				--m[guess[mismatch[i]]];
+				if (m[guess[mismatch[i]]] == 0) {
+					m.erase(guess[mismatch[i]]);
 				}
 				++fake_hit;
 			}
@@ -37,7 +42,7 @@ public:
 int main() {
 	Solution sol;
 
-	cout << sol.guess_colors("RGBY", "GGRR");
+	cout << sol.guess_colors("GGRR", "RGBY");
 
 	return 0;
 }

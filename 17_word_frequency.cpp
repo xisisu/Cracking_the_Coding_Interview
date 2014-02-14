@@ -2,15 +2,20 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <algorithm>
+#include <vector>
 #include <map>
 using namespace std;
+
+int comp(const pair<string, int>& a, const pair<string, int>& b) {
+	return a.second < b.second;
+}
 
 int main() {
 	ifstream ifs("17_word_frequency.txt");
 	string line;
 
 	map<string, int> m;
-	map<int, string> reverse_m;
 
 	while (getline(ifs, line)) {
 		stringstream stream(line);
@@ -21,13 +26,14 @@ int main() {
 		}
 	}
 
-	map<string, int>::iterator it;
-	for (it = m.begin(); it != m.end(); ++it) 
-		reverse_m[it->second] = it->first;
+	vector<pair<string, int> > table;
+	for (map<string, int>::iterator it = m.begin(); it != m.end(); ++it) 
+		table.push_back(pair<string, int>(it->first, it->second));
 
-	map<int, string>::iterator reverse_it;
-	for (reverse_it = reverse_m.begin(); reverse_it != reverse_m.end(); ++reverse_it)
-		cout << reverse_it->second << " " << reverse_it->first << endl;
+	sort(table.begin(), table.end(), comp);
+
+	for (int i = 0; i < table.size(); ++i)
+		cout << table[i].first << " " << table[i].second << endl;
 
 	return 0;
 }

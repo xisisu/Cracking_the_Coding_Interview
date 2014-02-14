@@ -42,7 +42,7 @@ public:
 	int count_convert2(int m, int n) {
 		int count = 0;
 		for (int c = m ^ n; c != 0; c &= (c-1)) {
-			count += c&1;
+			++count;
 		}
 		return count;
 	}
@@ -53,6 +53,8 @@ int main()
 {
 	Solution sol;
 
+	cout << sol.count_convert(31, 14) << endl;
+	cout << sol.count_convert1(31, 14) << endl;
 	cout << sol.count_convert2(31, 14) << endl;
 
 	return 0;

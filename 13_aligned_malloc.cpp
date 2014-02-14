@@ -8,7 +8,7 @@ using namespace std;
 void * aligned_malloc(size_t required_bytes, size_t alignment) {
 	int offset = alignment - 1;
 	void * p = (void *) malloc(required_bytes + offset);
-	void * q = (void *) (((size_t)(p) + offset) & ~(offset));
+	void * q = (void *) (((size_t)(p) + offset) & ~(alignment - 1));
 
 	return q;
 }
@@ -33,7 +33,7 @@ void aligned_free(void *p2) {
 
 
 int main() {
-	int alignment = 256;
+	int alignment = 2048;
 	int required_bytes = 10;
 
 	// cout << sizeof(size_t) << endl;   // print 8

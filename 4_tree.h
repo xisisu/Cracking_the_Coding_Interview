@@ -39,6 +39,34 @@ TreeNode * generate(vector<int> data) {
     return root;
 }
 
+// process by level
+TreeNode * generate(int data[], int n) {
+    if (n <= 0) { return NULL; }
+
+    TreeNode *root = new TreeNode(data[0]);
+    queue<TreeNode *> q;
+    q.push(root);
+
+    int idx = 1;
+    while (idx < n) {
+        TreeNode *cur = q.front();
+        q.pop();
+
+        if (data[idx] != -1) {
+            cur->left = new TreeNode(data[idx]);
+            q.push(cur->left);
+        }
+        if (++idx >= n) { return root; }
+        if (data[idx] != -1) {
+            cur->right = new TreeNode(data[idx]);
+            q.push(cur->right);
+        }
+        ++idx;
+    }
+
+    return root;
+}
+
 // toString by bfs
 void toString(TreeNode *root) {
     if (root == NULL) {
@@ -72,25 +100,6 @@ void toString(TreeNode *root) {
     cout << endl;
 }
 
-void preOrder(TreeNode *root) {
-    if (!root) { return; }  
-    stack<TreeNode *> s;
-    TreeNode *cur = root;
-
-    cout << "pre Order: ";
-    while (cur || !s.empty()) {
-        if (cur) {
-            cout << cur->val << " ";
-            if (cur->right) { s.push(cur->right); }
-            cur = cur->left;
-        } else {
-            cur = s.top();
-            s.pop();
-        }
-    }
-    cout << endl;
-}
-
 void postOrder(TreeNode *root) {
     if (!root) { return; }
     stack<TreeNode *> s;
@@ -111,6 +120,25 @@ void postOrder(TreeNode *root) {
             s.pop();
         }
         pre = cur;
+    }
+    cout << endl;
+}
+
+void preOrder(TreeNode *root) {
+    if (!root) { return; }  
+    stack<TreeNode *> s;
+    TreeNode *cur = root;
+
+    cout << "pre Order: ";
+    while (cur || !s.empty()) {
+        if (cur) {
+            cout << cur->val << " ";
+            if (cur->right) { s.push(cur->right); }
+            cur = cur->left;
+        } else {
+            cur = s.top();
+            s.pop();
+        }
     }
     cout << endl;
 }

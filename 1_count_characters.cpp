@@ -23,19 +23,20 @@ public:
 		res += s1[s1.length()-1];
 		res += count+'0';
 
-		return res;
+		if (res.size() < s1.size()) {
+			return res;
+		} else {
+			return s1;
+		}
 	}
 };
 
 int main()
 {
-	string s1 = "aaabbbcdefgasdff";
+	Solution sol;
 
-	Solution res;
-
-	string s2 = res.count_characters(s1);
-
-	cout << s2 << endl;
+	cout << sol.count_characters("aaaaaabbbcccccdddd") << endl;
+	cout << sol.count_characters("abcdefghijkl") << endl;
 
 	return 0;
 }
